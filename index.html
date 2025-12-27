@@ -1,0 +1,928 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Aditya Choubey's personal website">
+<title>Aditya Choubey</title>
+<style>
+  /* ---------- Reset & base ---------- */
+  :root {
+    --bg: #f0f0f5; /* Lighter background */
+    --panel: #ffffff; /* White panel */
+    --muted: #4a4a4a; /* Darker gray text */
+    --accent: #2196f3; /* Accent color remains the same */
+    --accent-2: #3ea6ff;
+    --card-bg: #f9f9f9; /* Lighter card background */
+    --glass: rgba(0, 0, 0, 0.1); /* Glass effect with opacity */
+    --light: #333333; /* Dark text color */
+    --max-width: 1100px;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Noto Mono", monospace;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, var(--bg) 0%, #e6e6e6 100%); /* Lighter gradient */
+    color: var(--light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.45;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  /* ---------- Top Navigation (desktop) ---------- */
+  .big_topnav {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 22px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .big_topnav a {
+    color: var(--muted);
+    font-weight: 500;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .big_topnav a:hover {
+    color: var(--light);
+    background: rgba(0, 0, 0, 0.05); /* Light hover effect */
+  }
+
+  /* ---------- Mobile topnav (hamburger) ---------- */
+  .topnav {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .topnav .topright {
+    display: flex;
+    align-items: center;
+  }
+  .hamburger {
+    width: 34px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+  }
+  .hamburger div {
+    height: 4px;
+    background: var(--muted);
+    border-radius: 3px;
+    transition: all 0.25s;
+  }
+  .hamburger.open .bar1 {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .hamburger.open .bar2 {
+    opacity: 0;
+  }
+  .hamburger.open .bar3 {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+  .links {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+  .links a {
+    color: var(--muted);
+    padding: 6px 8px;
+    border-radius: 6px;
+  }
+  .links a:hover {
+    color: var(--light);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  /* mobile slideout */
+  .mobile-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 260px;
+    height: 100vh;
+    background: linear-gradient(180deg, #f9f9f9, #e6e6e6); /* Lighter background */
+    padding: 60px 20px;
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.2); /* Light shadow */
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.2, .9, .2, 1);
+    z-index: 80;
+  }
+  .mobile-panel.open {
+    transform: translateX(0);
+  }
+  .mobile-panel a {
+    display: block;
+    color: var(--muted);
+    padding: 10px 6px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+  }
+  .mobile-panel a:hover {
+    color: var(--light);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  /* ---------- Hero / Title ---------- */
+  .title.split {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--max-width);
+    margin: 40px auto;
+    padding: 20px;
+  }
+  .title .text {
+    flex: 1 1 48%;
+    min-width: 260px;
+  }
+  .title h1 {
+    font-size: 44px;
+    margin: 0 0 6px;
+    color: var(--light);
+    line-height: 1.02;
+  }
+  .title h1 strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .title h2 {
+    margin: 0;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 20px;
+  }
+  .title h3 {
+    margin-top: 18px;
+    color: var(--muted);
+    font-weight: 500;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .title h3 a {
+    opacity: .9;
+  }
+  .title h3 svg {
+    transition: fill 0.15s;
+  }
+  .title .links-row {
+    margin-top: 10px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* ---------- Canvas Card (placeholder for three.js canvas) ---------- */
+  .canvas-wrap {
+    width: 48%;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* create a 3D card using CSS + JS interactivity */
+  .card-scene {
+    width: 360px;
+    height: 420px;
+    perspective: 1200px;
+    -webkit-perspective: 1200px;
+  }
+
+  .card-3d {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(.2, .9, .2, 1);
+    cursor: grab;
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 0, 0, 0.02); /* Lighter shadow */
+    background: linear-gradient(180deg, #f9f9f9, #f1f1f1); /* Light gradient */
+    position: relative;
+    overflow: hidden;
+  }
+  .card-3d:active {
+    cursor: grabbing;
+  }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+  }
+  .card-front {
+    background: linear-gradient(180deg, #f1f1f1, #e6e6e6); /* Light front */
+    color: var(--light);
+  }
+  .card-back {
+    background: linear-gradient(180deg, #e6e6e6, #dcdcdc); /* Light back */
+    color: var(--light);
+    transform: rotateY(180deg);
+  }
+  .card-3d.is-flipped {
+    transform: rotateY(180deg);
+  }
+  .card-placeholder {
+    width: 88%;
+    height: 62%;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
+    color: var(--muted);
+    border: 1px dashed rgba(0, 0, 0, 0.04);
+    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .card-info {
+    margin-top: 18px;
+    text-align: center;
+  }
+  .card-info h4 {
+    margin: 0;
+    font-size: 18px;
+  }
+  .card-info p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+    max-width: 86%;
+  }
+
+  /* small "move" hint */
+  .move-hint {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    color: var(--muted);
+    font-size: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .move-hint svg {
+    opacity: .8;
+    width: 18px;
+    height: 18px;
+  }
+
+  /* ---------- Sections (about/projects/contact) ---------- */
+  section {
+    padding: 34px 20px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .center {
+    display: block;
+    text-align: center;
+  }
+  .smaller-page {
+    max-width: 840px;
+  }
+  h1.section-title {
+    font-size: 28px;
+    margin: 10px 0 18px;
+    color: var(--light);
+  }
+
+  .limited-width {
+    max-width: 720px;
+    margin: 0 auto;
+    color: var(--muted);
+    text-align: left;
+  }
+  .limited-width p {
+    font-size: 16px;
+    margin: 0 0 6px;
+  }
+
+  /* ---------- Projects Grid ---------- */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 0.5fr));
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .card {
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+  }
+  .card-image {
+    height: 160px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f0f0f0, #dcdcdc); /* Lighter image background */
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .card-content h1 {
+    font-size: 18px;
+    margin: 0;
+    color: var(--light);
+  }
+  .card-content p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .card-icon {
+    width: 28px;
+    height: 28px;
+    opacity: .95;
+  }
+  .card-button {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .card-button:hover {
+    background: rgba(33, 150, 243, 0.06);
+    color: var(--accent-2);
+  }
+
+  /* ---------- Contact Form ---------- */
+  .contact {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  }
+  .contact-inner {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .contact-form {
+    width: 100%;
+  }
+  form label {
+    display: block;
+    color: var(--muted);
+    margin-top: 12px;
+    font-size: 14px;
+  }
+  input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: transparent;
+    color: var(--light);
+    margin-top: 6px;
+    font-size: 14px;
+    resize: vertical;
+  }
+  button[type="submit"] {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .ps {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 12px;
+  }
+  .success {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(180deg, #0a1c2b, #06202a);
+    border-radius: 10px;
+    color: var(--accent-2);
+  }
+  .success.show {
+    display: block;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    background: transparent;
+    color: var(--muted);
+    margin-top: 34px;
+  }
+  .footer p {
+    margin: 0;
+  }
+  .footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 920px) {
+    .big_topnav {
+      display: none;
+    }
+    .topnav {
+      display: flex;
+    }
+    .title.split {
+      flex-direction: column-reverse;
+      gap: 18px;
+      padding: 8px;
+    }
+    .canvas-wrap {
+      width: 100%;
+    }
+    .card-scene {
+      width: 315px;
+      height: 370px;
+    }
+  }
+  @media (max-width: 420px) {
+    .card-scene {
+      width: 300px;
+      height: 340px;
+    }
+    .title h1 {
+      font-size: 30px;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <!-- Desktop nav -->
+  <nav class="big_topnav" aria-label="Main navigation">
+    <a href="#research">Research</a>
+    <a href="#projects">My Projects</a>
+    <a href="#contact">Contact Me</a>
+    <a href="https://drive.google.com/file/d/1Zkc7ehru8adnomGvxHBttNni3k7dHJ5I/view" target="_blank" rel="noopener">Resume</a>
+  </nav>
+
+  <!-- Mobile nav -->
+  <nav class="topnav" aria-label="Mobile navigation">
+    <div style="font-weight:700">Aditya Choubey</div>
+    <div class="topright">
+      <div id="hamburger" class="hamburger" aria-label="menu" role="button" tabindex="0" title="Toggle menu">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+    </div>
+    <div id="links" class="links" style="display:none">
+      <!-- kept hidden, we use slideout instead -->
+    </div>
+  </nav>
+
+  <!-- mobile slideout -->
+  <div id="mobilePanel" class="mobile-panel" aria-hidden="true">
+    <a href="#research" onclick="closeMobile()">Research</a>
+    <a href="#projects" onclick="closeMobile()">My Projects</a>
+    <a href="#contact" onclick="closeMobile()">Contact Me</a>
+    <a href="https://drive.google.com/file/d/1Zkc7ehru8adnomGvxHBttNni3k7dHJ5I/view">Resume</a>
+  </div>
+
+  <!-- HERO -->
+  <section>
+    <div class="title split full-page">
+      <div class="text">
+        <h1 class="no-margin"><strong>Aditya Choubey</strong></h1>
+        <h2 class="no-margin">App Developer &amp; Researcher</h2>
+
+        <h3 class="no-margin">
+          <span style="display:flex;gap:12px;align-items:center">
+            <!-- Github svg -->
+            <a href="https://github.com/AdityaChoubey2009" target="_blank" rel="noopener" aria-label="Github">
+              <svg width="28" height="28" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" fill="#84828f" role="img" title="Github">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"></path>
+              </svg>
+            </a>
+
+            <!-- Resume svg -->
+            <a href="https://drive.google.com/file/d/1Zkc7ehru8adnomGvxHBttNni3k7dHJ5I/view" target="_blank" rel="noopener" aria-label="Resume">
+              <svg width="28" height="28" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" fill="#84828f" title="Resume">
+                <path d="M24.707,8.793l-6.5-6.5C18.019,2.105,17.765,2,17.5,2H7C5.895,2,5,2.895,5,4v22c0,1.105,0.895,2,2,2h16c1.105,0,2-0.895,2-2V9.5C25,9.235,24.895,8.981,24.707,8.793z M18,21h-8c-0.552,0-1-0.448-1-1c0-0.552,0.448-1,1-1h8c0.552,0,1,0.448,1,1C19,20.552,18.552,21,18,21z M20,17H10c-0.552,0-1-0.448-1-1c0-0.552,0.448-1,1-1h10c0.552,0,1,0.448,1,1C21,16.552,20.552,17,20,17z M18,10c-0.552,0-1-0.448-1-1V3.904L23.096,10H18z"></path>
+              </svg>
+            </a>
+
+            <!-- Matrix svg -->
+            <a href="https://matrix.to/#/@adityachoubey:matrix.org" target="_blank" rel="noopener" aria-label="Matrix">
+              <svg width="28" height="28" viewBox="0 0 27.9 32" xmlns="http://www.w3.org/2000/svg" fill="#84828f" title="Matrix">
+                <g transform="translate(-.095 .005)">
+                  <path d="m27.1 31.2v-30.5h-2.19v-0.732h3.04v32h-3.04v-0.732z"></path>
+                  <path d="m8.23 10.4v1.54h0.044c0.385-0.564 0.893-1.03 1.49-1.37 0.58-0.323 1.25-0.485 1.99-0.485 0.72 0 1.38 0.14 1.97 0.42 0.595 0.279 1.05 0.771 1.36 1.48 0.338-0.5 0.796-0.941 1.38-1.32 0.58-0.383 1.27-0.574 2.06-0.574 0.602 0 1.16 0.074 1.67 0.22 0.514 0.148 0.954 0.383 1.32 0.707 0.366 0.323 0.653 0.746 0.859 1.27 0.205 0.522 0.308 1.15 0.308 1.89v7.63h-3.13v-6.46c0-0.383-0.015-0.743-0.044-1.08-0.0209-0.307-0.103-0.607-0.242-0.882-0.133-0.251-0.336-0.458-0.584-0.596-0.257-0.146-0.606-0.22-1.05-0.22-0.44 0-0.796 0.085-1.07 0.253-0.272 0.17-0.485 0.39-0.639 0.662-0.159 0.287-0.264 0.602-0.308 0.927-0.052 0.347-0.078 0.697-0.078 1.05v6.35h-3.13v-6.4c0-0.338-7e-3 -0.673-0.021-1-0.0114-0.314-0.0749-0.623-0.188-0.916-0.108-0.277-0.3-0.512-0.55-0.673-0.258-0.168-0.636-0.253-1.14-0.253-0.198 0.0083-0.394 0.042-0.584 0.1-0.258 0.0745-0.498 0.202-0.705 0.374-0.228 0.184-0.422 0.449-0.584 0.794-0.161 0.346-0.242 0.798-0.242 1.36v6.62h-3.13v-11.4z"></path>
+                  <path d="m0.936 0.732v30.5h2.19v0.732h-3.04v-32h3.03v0.732z"></path>
+                </g>
+              </svg>
+            </a>
+
+            <a href="mailto:adityachoubey1397@gmail.com" target="_blank" rel="noopener" aria-label="Email">
+  <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#84828f" title="Email">
+    <path d="M12 13.065L2 6.75V18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6.75l-10 6.315zM12 11L22 5H2l10 6z"></path>
+  </svg>
+</a>
+
+          </span>
+        </h3>
+
+        <div style="margin-top:18px;color:var(--muted);font-size:15px;max-width:520px">
+        I am a high school student passionate about Graph Theory, Linear Algebra, and AI applications. I build web and mobile apps, integrate AI tools, and conduct research in computational mathematics. Outside of research and tech, I enjoy playing clarinet, swimming, running, and weightlifting.
+        <br><strong>My Research Interests (Mathematics): </strong> Graph Theory, Linear algebra
+        <br><strong>My Research Interests (Computer Science): </strong> Generative AI, Machine Learning, Natural Language Processing, Theoretical AI
+        </div>
+      </div>
+
+      <!-- Canvas-like 3D card placeholder -->
+      <div class="canvas-wrap" aria-hidden="false">
+        <div class="card-scene" aria-label="Profile card scene">
+          <div id="card3d" class="card-3d" role="img" aria-label="Interactive profile card" style="transform: rotateX(-10deg) rotateY(279deg);">
+            <div class="card-face card-front" style="backface-visibility: visible;">
+              <div class="card-info">
+                <h4>Aditya Choubey</h4>
+                <p>App Developer &amp; Researcher — High School student</p>
+              </div>
+              <div class="move-hint"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 14.25L4.75 11H7c.25-5.61 2.39-10 5-10c2 0 3.77 2.64 4.55 6.45C20.36 8.23 23 10 23 12c0 1.83-2.17 3.43-5.4 4.3l.29-2.03C19.8 13.72 21 12.91 21 12c0-1.06-1.65-2-4.13-2.5c.08.79.13 1.63.13 2.5c0 6.08-2.24 11-5 11c-1.83 0-3.43-2.17-4.3-5.4l2.03.29C10.28 19.8 11.09 21 12 21c1.66 0 3-4.03 3-9q0-1.5-.15-2.85Q13.5 9 12 9l-1.86.06l.29-2.01L12 7c.87 0 1.71.05 2.5.13C14 4.65 13.06 3 12 3c-1.54 0-2.82 3.5-3 8h2.25zM14.25 16L11 19.25V17c-5.61-.25-10-2.39-10-5c0-1.83 2.17-3.43 5.4-4.3l-.29 2.03C4.2 10.28 3 11.09 3 12c0 1.54 3.5 2.82 8 3v-2.25z"></path></svg><span style="font-size:12px;color:var(--muted)">move / click to flip</span></div>
+            </div>
+
+            <div class="card-face card-back" style="backface-visibility: hidden;">
+              <div class="card-info">
+                <h4>Contact me</h4>
+                <p><strong>Email: </strong> adityachoubey1397@gmail.com</p>
+                <p><strong>Matrix: </strong> @adityachoubey:matrix.org</p>
+              </div>
+              <div class="move-hint"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.489 2 2 6.488 2 12s4.489 10 10 10 10-4.488 10-10S17.511 2 12 2zM11 17h2v-2h-2v2zm0-4h2V7h-2v6z"></path></svg><span style="font-size:12px;color:var(--muted)">click to flip</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="research" class="center smaller-page">
+    <h1 class="section-title">Research</h1>
+    <div class="grid-container">
+        <div class="card" role="article" aria-label="Heptagram research">
+        <div class="card-image"><img src="https://lh3.googleusercontent.com/d/18Moc9Lj56rzKyrfEdqMZJFQ5zDUx1HB-=s220"></div>
+        <div class="card-content">
+          <h1>Heptagram research</h1>
+          <p>Currently conducting research to solve a heptagram problem under <a href="https://math.charlotte.edu/directory/harold-reiter/" target="_blank" rel="noopener">Dr. Harold Reiter</a>, Professor of Mathematics at UNC Charlotte. Focuses on exploring advanced concepts in linear algebra and graph theory to develop novel mathematical solutions.</p>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="card-icon" title="Flutter icon" style="width:28px;height:28px;background:linear-gradient(90deg,#2b6fbf,#6dc4ff);border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:12px">F</div>
+          </div>
+        <!--<a class="card-button" href="https://www.congressionalappchallenge.us/23-NC08" target="_blank" rel="noopener">Competition Page</a>-->
+        </div>
+        
+
+    </div>
+
+  </div></section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="center smaller-page">
+    <h1 class="section-title">My Projects</h1>
+    <div class="grid-container">
+      <!-- Care Plan Monkey -->
+      <div class="card" role="article" aria-label="Care Plan Monkey project">
+        <div class="card-image"><img src="https://lh3.googleusercontent.com/d/1ZD7B4Xjl-sYltWtDRRn52kzkru_oqg4l=s220"></div>
+        <div class="card-content">
+          <h1>Care Plan Monkey</h1>
+          <p>A mobile app for caregivers to create and manage a care plan for loved ones. Winner of the 2023 Congressional App Challenge (NC 8th District). Built in Dart/Flutter for a fast, responsive, platform-independent experience.</p>
+        </div>
+        <div class="card-footer">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="card-icon" title="Flutter icon" style="width:28px;height:28px;background:linear-gradient(90deg,#2b6fbf,#6dc4ff);border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:12px">F</div>
+          </div>
+        <a class="card-button" href="https://www.congressionalappchallenge.us/23-NC08" target="_blank" rel="noopener">Competition Page</a>
+        </div>
+      </div>
+
+    <!-- Congressional Insight Tool -->
+    <div class="card" role="article" aria-label="Congressional Insight Tool project">
+      <div class="card-image"><img src="https://lh3.googleusercontent.com/d/1rk_UsD6ZaPLLUS3Hn1m-i30ViNuGkj1m=s220"></div>
+      <div class="card-content">
+        <h1>Congressional Insight Tool</h1>
+        <p>A web app for Congressional staff and the public to extract insights from legislative data. Second place, 2024 Congressional App Challenge (NC 8th District). Built using Python/Flask, ChromaDB, LangChain, and Ollama.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-icon" title="Python icon" style="width:28px;height:28px;background:linear-gradient(90deg,#306998,#6db3f2);border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:12px">Py</div>
+      </div>
+    </div>
+
+    <!-- Seniors' AI Monkey (SAM) -->
+    <div class="card" role="article" aria-label="Seniors' AI Monkey project">
+      <div class="card-image"><img src="https://lh3.googleusercontent.com/d/1dP1BFPMsPrKmMn6ee9hInLNbMDfUGm6j=s220"></div>
+      <div class="card-content">
+        <h1>Seniors' AI Monkey (SAM)</h1>
+        <p>A web-based AI assistant (with speech-to-text input and text-to-speech output for accessibility) to help senior citizens with everyday problems like tech issues and filling out important forms</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-icon" title="HTML icon" style="width:28px;height:28px;background:linear-gradient(90deg,#ffcc00,#ffdd66);border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:12px">H</div>
+      </div>
+    </div>
+
+<!-- NASA Space Apps Challenge Project -->
+<div class="card" role="article" aria-label="NASA Space Apps Challenge Hackathon project">
+  <div class="card-image"><img src="https://lh3.googleusercontent.com/d/1a3TvEB_GORs4nl4UN7Iw-GG5QsAzNwYs=s220"></div>
+  <div class="card-content">
+    <h1>NASA Space Apps Challenge Hackathon 2025</h1>
+    <p>Participated in a 2-day hackathon to develop an application for detecting exoplanets: <a href="https://findanexoplanet.com/" target="_blank" rel="noopener">findanexoplanet.com</a>. Built and evaluated multiple machine learning models (Random Forests and Neural Networks) using NASA Kepler Mission data. Leveraged Pandas and NumPy for data processing and SKLearn for model training, inference, and evaluation.</p>
+  </div>
+  <div class="card-footer">
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="card-icon" title="Python/ML icon" style="width:28px;height:28px;background:linear-gradient(90deg,#0277bd,#29b6f6);border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:12px">ML</div>
+    </div>
+    <a class="card-button" href="https://findanexoplanet.com/" target="_blank" rel="noopener">Hackathon Page</a>
+  </div>
+</div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact" style="--peaks: none;">
+      <div class="contact-inner">
+        <div class="contact-form">
+          <h1 style="margin-top:0">Contact Me (Work in Progress)</h1>
+          <form id="contactForm" name="contact" method="POST" novalidate="">
+            <input type="hidden" name="form-name" value="contact">
+            <label for="name">Name:</label>
+            <input id="name" name="name" type="text" required="" placeholder="Your name">
+            <label for="email">Email:</label>
+            <input id="email" name="email" type="email" required="" placeholder="yourname@example.com">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="10" required="" placeholder="Hi..."></textarea>
+            <button type="submit">Send</button>
+          </form>
+
+          <p id="matrix" class="ps">You can also reach out to me on <a href="https://matrix.to/#/@adityachoubey:matrix.org" target="_blank" rel="noopener">Matrix</a>.</p>
+
+          <div id="success" class="success" role="status" aria-live="polite">
+            <h2>Thank You!</h2>
+            <p>Your message has been sent successfully.<br>You can send another form in 10 seconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <p>Made by Aditya Choubey using HTML, CSS, and Javascript</p>
+    <a href="https://github.com/AdityaChoubey2009" target="_blank" rel="noopener" aria-label="Github project">
+      <svg width="28" height="26" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" aria-hidden="true">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"></path>
+      </svg>
+    </a>
+    <a href="https://matrix.to/#/@adityachoubey:matrix.org" target="_blank" rel="noopener" aria-label="Matrix">
+              <svg width="28" height="28" viewBox="0 0 27.9 32" xmlns="http://www.w3.org/2000/svg" fill="#84828f" title="Matrix">
+                <g transform="translate(-.095 .005)">
+                  <path d="m27.1 31.2v-30.5h-2.19v-0.732h3.04v32h-3.04v-0.732z"></path>
+                  <path d="m8.23 10.4v1.54h0.044c0.385-0.564 0.893-1.03 1.49-1.37 0.58-0.323 1.25-0.485 1.99-0.485 0.72 0 1.38 0.14 1.97 0.42 0.595 0.279 1.05 0.771 1.36 1.48 0.338-0.5 0.796-0.941 1.38-1.32 0.58-0.383 1.27-0.574 2.06-0.574 0.602 0 1.16 0.074 1.67 0.22 0.514 0.148 0.954 0.383 1.32 0.707 0.366 0.323 0.653 0.746 0.859 1.27 0.205 0.522 0.308 1.15 0.308 1.89v7.63h-3.13v-6.46c0-0.383-0.015-0.743-0.044-1.08-0.0209-0.307-0.103-0.607-0.242-0.882-0.133-0.251-0.336-0.458-0.584-0.596-0.257-0.146-0.606-0.22-1.05-0.22-0.44 0-0.796 0.085-1.07 0.253-0.272 0.17-0.485 0.39-0.639 0.662-0.159 0.287-0.264 0.602-0.308 0.927-0.052 0.347-0.078 0.697-0.078 1.05v6.35h-3.13v-6.4c0-0.338-7e-3 -0.673-0.021-1-0.0114-0.314-0.0749-0.623-0.188-0.916-0.108-0.277-0.3-0.512-0.55-0.673-0.258-0.168-0.636-0.253-1.14-0.253-0.198 0.0083-0.394 0.042-0.584 0.1-0.258 0.0745-0.498 0.202-0.705 0.374-0.228 0.184-0.422 0.449-0.584 0.794-0.161 0.346-0.242 0.798-0.242 1.36v6.62h-3.13v-11.4z"></path>
+                  <path d="m0.936 0.732v30.5h2.19v0.732h-3.04v-32h3.03v0.732z"></path>
+                </g>
+              </svg>
+            </a>
+
+      <a href="mailto:adityachoubey1397@gmail.com" target="_blank" rel="noopener" aria-label="Email">
+  <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#84828f" title="Email">
+    <path d="M12 13.065L2 6.75V18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6.75l-10 6.315zM12 11L22 5H2l10 6z"></path>
+  </svg>
+</a>
+
+  </footer>
+
+<script>
+  // ---------- Mobile menu toggle ----------
+  const hamburger = document.getElementById('hamburger');
+  const mobilePanel = document.getElementById('mobilePanel');
+  function closeMobile(){
+    mobilePanel.classList.remove('open');
+    hamburger.classList.remove('open');
+    mobilePanel.setAttribute('aria-hidden','true');
+  }
+  function openMobile(){
+    mobilePanel.classList.add('open');
+    hamburger.classList.add('open');
+    mobilePanel.setAttribute('aria-hidden','false');
+  }
+  hamburger.addEventListener('click', ()=>{
+    if(mobilePanel.classList.contains('open')) closeMobile(); else openMobile();
+  });
+  hamburger.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hamburger.click(); } });
+
+  // Close mobile if clicking a hash link
+  document.querySelectorAll('.mobile-panel a').forEach(a => {
+    a.addEventListener('click', ()=> setTimeout(closeMobile, 150));
+  });
+
+const card = document.getElementById("card3d");
+
+let rotX = -10;
+let rotY = 0;
+let autoRot = 0;
+let isDragging = false;
+let lastX = 0;
+let lastY = 0;
+let velX = 0;
+let velY = 0;
+
+let flipped = false;
+let clickStart = 0;
+
+// -----------------------
+// AUTO-ROTATE LOOP
+// -----------------------
+function animate() {
+  if (!isDragging) {
+    autoRot += 0.25; // auto rotation speed
+    rotY = autoRot;
+  } else {
+    rotY += velX;
+    rotX += velY;
+
+    velX *= 0.90;
+    velY *= 0.90;
+  }
+
+// Apply rotation to card
+const flipAngle = flipped ? 180 : 0;
+card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY + flipAngle}deg)`;
+
+// --- Add this right after ---
+const yRot = (rotY + flipAngle) % 360;
+const front = card.querySelector('.card-front');
+const back = card.querySelector('.card-back');
+
+if (yRot >= 90 && yRot <= 270) {
+  front.style.backfaceVisibility = 'hidden';
+  back.style.backfaceVisibility = 'visible';
+} else {
+  front.style.backfaceVisibility = 'visible';
+  back.style.backfaceVisibility = 'hidden';
+}
+
+  requestAnimationFrame(animate);
+  
+}
+animate();
+
+// -----------------------
+// DRAGGING
+// -----------------------
+function getPos(e) {
+  return e.touches ? e.touches[0] : e;
+}
+
+function startDrag(e) {
+  isDragging = true;
+  const p = getPos(e);
+  lastX = p.clientX;
+  lastY = p.clientY;
+  clickStart = Date.now();
+}
+
+function moveDrag(e) {
+  if (!isDragging) return;
+  const p = getPos(e);
+
+  const dx = p.clientX - lastX;
+  const dy = p.clientY - lastY;
+
+  lastX = p.clientX;
+  lastY = p.clientY;
+
+  velX = dx * 0.4;
+  velY = -dy * 0.4;
+}
+
+function endDrag(e) {
+  isDragging = false;
+
+  // detect click (not drag)
+  if (Date.now() - clickStart < 150) {
+    flipped = !flipped;
+    card.classList.toggle("is-flipped", flipped);
+  }
+}
+
+// -----------------------
+// EVENT LISTENERS
+// -----------------------
+card.addEventListener("mousedown", startDrag);
+window.addEventListener("mousemove", moveDrag);
+window.addEventListener("mouseup", endDrag);
+
+card.addEventListener("touchstart", startDrag, { passive: true });
+window.addEventListener("touchmove", moveDrag, { passive: true });
+window.addEventListener("touchend", endDrag);
+
+// Initialize hints visibility
+updateMoveHints();
+
+  // ---------- Contact form handling (client-side only) ----------
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('success');
+  let cooldownTimer = null;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    // Simple local validation
+    const name = (fd.get('name')||'').trim();
+    const email = (fd.get('email')||'').trim();
+    const message = (fd.get('message')||'').trim();
+    if(!name || !email || !message){
+      alert('Please fill all fields.');
+      return;
+    }
+    // Simulate "send"
+    success.classList.add('show');
+    form.reset();
+    // disable form for 10s as the original mentions
+    Array.from(form.elements).forEach(el => el.disabled = true);
+    clearTimeout(cooldownTimer);
+    cooldownTimer = setTimeout(()=> {
+      Array.from(form.elements).forEach(el => el.disabled = false);
+      success.classList.remove('show');
+    }, 10000);
+  });
+
+  // Smooth scroll for internal anchors
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      const target = a.getAttribute('href');
+      if(target === '#') return;
+      const el = document.querySelector(target);
+      if(el){
+        e.preventDefault();
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+        closeMobile();
+      }
+    });
+  });
+
+  // Accessibility: close mobile if user resizes to desktop
+  window.addEventListener('resize', ()=> {
+    if(window.innerWidth > 920) closeMobile();
+  });
+</script>
+
+
+</body></html>
