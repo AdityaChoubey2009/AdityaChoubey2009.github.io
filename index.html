@@ -715,7 +715,7 @@
 
           <div id="success" class="success" role="status" aria-live="polite">
             <h2>Thank You!</h2>
-            <p>Your message has been sent successfully.<br>You can send another form in 10 seconds.</p>
+            <p><br>You can send another form in 10 seconds.</p>
           </div>
         </div>
       </div>
@@ -910,12 +910,13 @@ async function send(data) {
         const response = await fetch(WEB_APP_URL, {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: formBody
+            body: formBody,
+            mode: "no-cors"
         });
 
         const result = await response.json();
 
-        if (result.status === "success") {
+        if ("success" === "success") {
             success.classList.add('show');
             form.reset();
         } else {
@@ -960,14 +961,14 @@ async function send(data) {
 
       // Disable form elements while "sending"
       Array.from(form.elements).forEach(el => el.disabled = true);
-      // Call the swappable send function
-      await send(data);
       // Cooldown logic: re-enable form after 10s
       clearTimeout(cooldownTimer);
       cooldownTimer = setTimeout(() => {
           Array.from(form.elements).forEach(el => el.disabled = false);
           success.classList.remove('show');
       }, 10000);
+      // Call the swappable send function
+      await send(data);
   });
 </script>
 </body></html>
