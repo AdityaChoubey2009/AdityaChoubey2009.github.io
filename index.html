@@ -896,43 +896,78 @@ updateMoveHints();
   });
 </script>
 <script>
-  // ---------- Contact form handling (client-side only, modular placeholder) ----------
+  const form = document.getElementById('contactForm');
+  const success = document.getElementById('success');
+  let cooldownTimer = null;
+
+
+  
   /**
-   * Swappable function to handle form submission.
-   * Currently simulates sending (placeholder) but can be replaced with real backend logic.
+   * Swappable "send" function.
+   * Replace this placeholder with Google Apps Script, server endpoint, etc.
    */
-  function contactSubmit(event) {
-    event.preventDefault(); // Prevent default form POST
-    const form = event.target;
-    const success = document.getElementById('success');
-    // Use a property on the function to persist cooldown timer across submissions
-    let cooldownTimer = contactSubmit.cooldownTimer || null;
-    // Get form data
-    const fd = new FormData(form);
-    const name = (fd.get('name') || '').trim();
-    const email = (fd.get('email') || '').trim();
-    const message = (fd.get('message') || '').trim();
-    // Simple validation
-    if (!name || !email || !message) {
-      alert('Please fill all fields.');
-      return;
-    }
-    // --- Placeholder "send" ---
+  async function send(data) {
+    // Placeholder: just show success
     success.classList.add('show');
     form.reset();
-    // Disable form elements for 10 seconds
+    // --- Example for real backend ---
+    // const response = await fetch("YOUR_BACKEND_URL", {
+    //   method: "POST",
+    //   headers: {"Content-Type": "application/json"},
+    //   body: JSON.stringify(data)
+    // });
+    // const result = await response.json();
+    // if(result.status === "success"){
+    //   success.classList.add('show');
+    //   form.reset();
+    // } else {
+    //   alert("Error: " + result.message);
+    // }
+  }
+
+
+  
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    // Collect and trim form data
+    const fd = new FormData(form);
+    const data = {
+      name: (fd.get('name') || '').trim(),
+      email: (fd.get('email') || '').trim(),
+      message: (fd.get('message') || '').trim()
+    };
+    // Name: 2-50 characters
+    if (data.name.length < 2 || data.name.length > 50) {
+      alert("Name must be between 2 and 50 characters.");
+      return;
+    }
+    // Email: simple regex validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Message: min 10 chars, max 2000 chars
+    if (data.message.length < 10) {
+      alert("Message must be at least 10 characters long.");
+      return;
+    }
+    if (data.message.length > 2000) {
+      alert("Message is too long (max 2000 characters).");
+      return;
+    }
+
+    // Disable form elements while "sending"
     Array.from(form.elements).forEach(el => el.disabled = true);
+    // Call the swappable send function
+    await send(data);
+    // Cooldown logic: re-enable form after 10s
     clearTimeout(cooldownTimer);
     cooldownTimer = setTimeout(() => {
       Array.from(form.elements).forEach(el => el.disabled = false);
       success.classList.remove('show');
     }, 10000);
-    // Store timer on the function for future submissions
-    contactSubmit.cooldownTimer = cooldownTimer;
-  }
-  // Hook the modular function to form
-  const form = document.getElementById('contactForm');
-  form.addEventListener('submit', contactSubmit);
+  });
 </script>
-
 </body></html>
