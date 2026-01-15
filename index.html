@@ -901,51 +901,71 @@ updateMoveHints();
   let cooldownTimer = null;
 
 
-  
-async function send(data) { try { const response = await fetch("https://script.google.com/macros/s/AKfycbxbP50kON8HorHHqvd1DcFIoepawmtsqG7eCyDyVGcksUWbkZxEH5HIduo-TN4XBKwnYA/exec", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }); const result = await response.json(); if(result.status === "success") { success.classList.add('show'); form.reset(); } else { alert("Error: " + result.message); } } catch(err) { alert("Network error: " + err.message); } }
 
-  
+  async function send(data) {
+      try {
+          const response = await fetch("https://script.google.com/macros/s/AKfycbxbP50kON8HorHHqvd1DcFIoepawmtsqG7eCyDyVGcksUWbkZxEH5HIduo-TN4XBKwnYA/exec", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data),
+              mode: 'no-cors',
+          });
+          const result = await response.json();
+          if (result.status === "success") {
+              success.classList.add('show');
+              form.reset();
+          } else {
+              alert("Error: " + result.message);
+          }
+      } catch (err) {
+          alert("Network error: " + err.message);
+      }
+  }
+
+
   form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    // Collect and trim form data
-    const fd = new FormData(form);
-    const data = {
-      name: (fd.get('name') || '').trim(),
-      email: (fd.get('email') || '').trim(),
-      message: (fd.get('message') || '').trim()
-    };
-    // Name: 2-50 characters
-    if (data.name.length < 2 || data.name.length > 50) {
-      alert("Name must be between 2 and 50 characters.");
-      return;
-    }
-    // Email: simple regex validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
+      e.preventDefault();
+      // Collect and trim form data
+      const fd = new FormData(form);
+      const data = {
+          name: (fd.get('name') || '').trim(),
+          email: (fd.get('email') || '').trim(),
+          message: (fd.get('message') || '').trim()
+      };
+      // Name: 2-50 characters
+      if (data.name.length < 2 || data.name.length > 50) {
+          alert("Name must be between 2 and 50 characters.");
+          return;
+      }
+      // Email: simple regex validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+          alert("Please enter a valid email address.");
+          return;
+      }
 
-    // Message: min 10 chars, max 2000 chars
-    if (data.message.length < 10) {
-      alert("Message must be at least 10 characters long.");
-      return;
-    }
-    if (data.message.length > 2000) {
-      alert("Message is too long (max 2000 characters).");
-      return;
-    }
+      // Message: min 10 chars, max 2000 chars
+      if (data.message.length < 10) {
+          alert("Message must be at least 10 characters long.");
+          return;
+      }
+      if (data.message.length > 2000) {
+          alert("Message is too long (max 2000 characters).");
+          return;
+      }
 
-    // Disable form elements while "sending"
-    Array.from(form.elements).forEach(el => el.disabled = true);
-    // Call the swappable send function
-    await send(data);
-    // Cooldown logic: re-enable form after 10s
-    clearTimeout(cooldownTimer);
-    cooldownTimer = setTimeout(() => {
-      Array.from(form.elements).forEach(el => el.disabled = false);
-      success.classList.remove('show');
-    }, 10000);
+      // Disable form elements while "sending"
+      Array.from(form.elements).forEach(el => el.disabled = true);
+      // Call the swappable send function
+      await send(data);
+      // Cooldown logic: re-enable form after 10s
+      clearTimeout(cooldownTimer);
+      cooldownTimer = setTimeout(() => {
+          Array.from(form.elements).forEach(el => el.disabled = false);
+          success.classList.remove('show');
+      }, 10000);
   });
 </script>
 </body></html>
