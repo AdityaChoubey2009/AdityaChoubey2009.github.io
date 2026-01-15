@@ -920,7 +920,7 @@ updateMoveHints();
     // --- Placeholder "send" ---
     success.classList.add('show');
     form.reset();
-    // Disable form elements for 10 seconds (cooldown)
+    // Disable form elements for 10 seconds
     Array.from(form.elements).forEach(el => el.disabled = true);
     clearTimeout(cooldownTimer);
     cooldownTimer = setTimeout(() => {
@@ -930,7 +930,7 @@ updateMoveHints();
     // Store timer on the function for future submissions
     contactSubmit.cooldownTimer = cooldownTimer;
   }
-  // Hook the modular function to your form
+  // Hook the modular function to form
   const form = document.getElementById('contactForm');
   form.addEventListener('submit', contactSubmit);
 </script>
