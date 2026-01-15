@@ -900,11 +900,11 @@ updateMoveHints();
   const success = document.getElementById('success');
   let cooldownTimer = null;
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxbP50kON8HorHHqvd1DcFIoepawmtsqG7eCyDyVGcksUWbkZxEH5HIduo-TN4XBKwnYA/exec";
-  const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+  //const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
   
   async function send(data) {
       try {
-          const response = await fetch(CORS_PROXY + WEB_APP_URL, {
+          const response = await fetch(WEB_APP_URL, {
               method: "POST",
               headers: {
                   "Content-Type": "application/json"
