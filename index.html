@@ -902,26 +902,25 @@ updateMoveHints();
   const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxbP50kON8HorHHqvd1DcFIoepawmtsqG7eCyDyVGcksUWbkZxEH5HIduo-TN4XBKwnYA/exec";
   //const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
   
-  async function send(data) {
-      try {
-          const response = await fetch(WEB_APP_URL, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify(data),
-          });
-          const result = await response.json();
-          if (result.status === "success") {
-              success.classList.add('show');
-              form.reset();
-          } else {
-              alert("Error: " + result.message);
-          }
-      } catch (err) {
-          alert("Network error: " + err.message);
-      }
-  }
+async function send(data) {
+    const formBody = new URLSearchParams(data).toString();
+    try {
+        const response = await fetch(WEB_APP_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: formBody
+        });
+        const result = await response.json();
+        if (result.status === "success") {
+            success.classList.add('show');
+            form.reset();
+        } else {
+            alert("Error: " + result.message);
+        }
+    } catch (err) {
+        alert("Network error: " + err.message);
+    }
+}
 
 
   form.addEventListener('submit', async (e) => {
