@@ -700,7 +700,7 @@
       <div class="contact-inner">
         <div class="contact-form">
           <h1 style="margin-top:0">Contact Me (Work in Progress)</h1>
-          <form id="contactForm" name="contact" method="POST" novalidate="">
+          <form id="contactForm" name="contact" novalidate="">
             <input type="hidden" name="form-name" value="contact">
             <label for="name">Name:</label>
             <input id="name" name="name" type="text" required="" placeholder="Your name">
@@ -876,34 +876,6 @@ window.addEventListener("touchend", endDrag);
 // Initialize hints visibility
 updateMoveHints();
 
-  // ---------- Contact form handling (client-side only) ----------
-  const form = document.getElementById('contactForm');
-  const success = document.getElementById('success');
-  let cooldownTimer = null;
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const fd = new FormData(form);
-    // Simple local validation
-    const name = (fd.get('name')||'').trim();
-    const email = (fd.get('email')||'').trim();
-    const message = (fd.get('message')||'').trim();
-    if(!name || !email || !message){
-      alert('Please fill all fields.');
-      return;
-    }
-    // Simulate "send"
-    success.classList.add('show');
-    form.reset();
-    // disable form for 10s as the original mentions
-    Array.from(form.elements).forEach(el => el.disabled = true);
-    clearTimeout(cooldownTimer);
-    cooldownTimer = setTimeout(()=> {
-      Array.from(form.elements).forEach(el => el.disabled = false);
-      success.classList.remove('show');
-    }, 10000);
-  });
-
   // Smooth scroll for internal anchors
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
     a.addEventListener('click', (e)=>{
@@ -923,6 +895,44 @@ updateMoveHints();
     if(window.innerWidth > 920) closeMobile();
   });
 </script>
-
+<script>
+  // ---------- Contact form handling (client-side only, modular placeholder) ----------
+  /**
+   * Swappable function to handle form submission.
+   * Currently simulates sending (placeholder) but can be replaced with real backend logic.
+   */
+  function contactSubmit(event) {
+    event.preventDefault(); // Prevent default form POST
+    const form = event.target;
+    const success = document.getElementById('success');
+    // Use a property on the function to persist cooldown timer across submissions
+    let cooldownTimer = contactSubmit.cooldownTimer || null;
+    // Get form data
+    const fd = new FormData(form);
+    const name = (fd.get('name') || '').trim();
+    const email = (fd.get('email') || '').trim();
+    const message = (fd.get('message') || '').trim();
+    // Simple validation
+    if (!name || !email || !message) {
+      alert('Please fill all fields.');
+      return;
+    }
+    // --- Placeholder "send" ---
+    success.classList.add('show');
+    form.reset();
+    // Disable form elements for 10 seconds (cooldown)
+    Array.from(form.elements).forEach(el => el.disabled = true);
+    clearTimeout(cooldownTimer);
+    cooldownTimer = setTimeout(() => {
+      Array.from(form.elements).forEach(el => el.disabled = false);
+      success.classList.remove('show');
+    }, 10000);
+    // Store timer on the function for future submissions
+    contactSubmit.cooldownTimer = cooldownTimer;
+  }
+  // Hook the modular function to your form
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', contactSubmit);
+</script>
 
 </body></html>
