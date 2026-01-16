@@ -903,28 +903,8 @@ updateMoveHints();
   //const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
   
 async function send(data) {
-    // Convert JS object to x-www-form-urlencoded string
-    const formBody = new URLSearchParams(data).toString(); 
-
-    try {
-        const response = await fetch(WEB_APP_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: formBody,
-            mode: "no-cors"
-        });
-
-        const result = await response.json();
-
-        if ("success" === "success") {
-            success.classList.add('show');
-            form.reset();
-        } else {
-            //alert("Error: " + result.message);
-        }
-    } catch (err) {
-        //alert("Network error: " + err.message);
-    }
+  success.classList.add('show'); //placeholder code, form is work-in-progress and will be updated soon
+  form.reset();
 }
 
 
